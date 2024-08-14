@@ -10,29 +10,38 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Configuration
 public class A47_2 {
-    public static void main(String[] args) throws NoSuchFieldException {
+    public static void main(String[] args) throws NoSuchFieldException, IllegalAccessException {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(A47_2.class);
         DefaultListableBeanFactory beanFactory = context.getDefaultListableBeanFactory();
 //        testArray(beanFactory);
-        testList(beanFactory);
+//        testList(beanFactory);
+        testApplicationContext(beanFactory);
 
         context.close();
     }
 
     private static void testQualifier(DefaultListableBeanFactory beanFactory) {
+
     }
 
     private static void testGeneric(DefaultListableBeanFactory beanFactory) {
 
     }
 
-    private static void testApplicationContext(DefaultListableBeanFactory beanFactory) {
+    private static void testApplicationContext(DefaultListableBeanFactory beanFactory) throws NoSuchFieldException, IllegalAccessException {
+        DependencyDescriptor dd3 = new DependencyDescriptor(Target.class.getDeclaredField("applicationContext"), true);
 
+        Field resolvableDependencies = DefaultListableBeanFactory.class.getDeclaredField("resolvableDependencies");
+        resolvableDependencies.setAccessible(true);
+        Map<Class<?>, Object> dependencies = (Map<Class<?>, Object>) resolvableDependencies.get(beanFactory);
+        dependencies.forEach((k, v) -> System.out.println(k + ":" + v));
     }
 
     private static void testList(DefaultListableBeanFactory beanFactory) throws NoSuchFieldException {
