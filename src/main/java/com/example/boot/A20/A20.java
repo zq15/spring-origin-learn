@@ -47,10 +47,10 @@ public class A20 {
         byte[] array = response.getContentAsByteArray();
         System.out.println(new String(array, StandardCharsets.UTF_8));
 
-//        System.out.println(">>>>>>>>>>>>>> 所有参数解析器");
-//        for (HandlerMethodArgumentResolver resolver : handlerAdapter.getArgumentResolvers()) {
-//            System.out.println(resolver);
-//        }
+        System.out.println(">>>>>>>>>>>>>> 所有参数解析器");
+        for (HandlerMethodArgumentResolver resolver : handlerAdapter.getArgumentResolvers()) {
+            System.out.println(resolver);
+        }
 //
 //        System.out.println(">>>>>>>>>>>>>> 所有返回值解析器");
 //        for (HandlerMethodReturnValueHandler handler : handlerAdapter.getReturnValueHandlers()) {
