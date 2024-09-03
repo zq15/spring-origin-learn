@@ -1,8 +1,9 @@
-package org.springframework.aop.framework.autoproxy;
+package org.springframework.aop.framework;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
+import org.aopalliance.intercept.MethodInvocation;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Before;
@@ -13,7 +14,7 @@ import org.springframework.aop.aspectj.AspectJAroundAdvice;
 import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.aspectj.AspectJMethodBeforeAdvice;
 import org.springframework.aop.aspectj.SingletonAspectInstanceFactory;
-import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.interceptor.ExposeInvocationInterceptor;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 
 /**
@@ -61,7 +62,7 @@ public class A18 {
         }
     }
 
-    public static void main(String[] args) throws NoSuchMethodException {
+    public static void main(String[] args) throws Throwable {
         AspectInstanceFactory factory = new SingletonAspectInstanceFactory(new Aspect());
         List<Advisor> advisors = new ArrayList<>();
         // 1.高级切面转低级切面
@@ -107,8 +108,10 @@ public class A18 {
          * 为了支持某些通知这样一层一层调用的形式，环绕通知肯定是最合适的
          * before 和 returning 需要转换
          */
+        Target target = new Target();
         ProxyFactory proxyFactory = new ProxyFactory();
         proxyFactory.setTarget(new Target());
+        proxyFactory.addAdvice(ExposeInvocationInterceptor.INSTANCE); // 把 MethodInvocation 放入当前进程
         proxyFactory.addAdvisors(advisors);
 
         System.out.println(">>>>>>>>>>>>>>>>>>>>>>>");
@@ -120,6 +123,11 @@ public class A18 {
         // MethodBeforeAdviceAdapter => MethodBeforeAdviceInterceptor -> AspectJAroundAdvice
 
         // 3. 创建并执行
+        MethodInvocation methodInvocation = new ReflectiveMethodInvocation(
+            null, target, Target.class.getMethod("foo"), new Object[0], Target.class, methodInterceptors
+        );
+        methodInvocation.proceed();
+        // 调用链的一个递归过程
 
     }
 }

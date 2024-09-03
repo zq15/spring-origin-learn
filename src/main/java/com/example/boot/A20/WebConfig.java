@@ -1,5 +1,6 @@
 package com.example.boot.A20;
 
+import java.util.List;
 import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletRegistrationBean;
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties;
@@ -50,7 +51,12 @@ public class WebConfig {
     // 2. 继续加入 RequestMappingHandlerAdapter，会替换掉 DispatcherServlet 默认的4个 HandlerAdapter
     @Bean
     public MyRequestMappingHandlerAdapter requestMappingHandlerAdapter() {
-        return new MyRequestMappingHandlerAdapter();
+        MyRequestMappingHandlerAdapter handlerAdapter = new MyRequestMappingHandlerAdapter();
+        TokenArgumentResolver tokenArgumentResolver = new TokenArgumentResolver();
+        YmlReturnValueHandler ymlReturnValueHandler = new YmlReturnValueHandler();
+        handlerAdapter.setCustomArgumentResolvers(List.of(tokenArgumentResolver));
+        handlerAdapter.setCustomReturnValueHandlers(List.of(ymlReturnValueHandler));
+        return handlerAdapter;
     }
 
 }

@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.yaml.snakeyaml.Yaml;
 
 @Controller
 public class Controller1 {
@@ -28,7 +29,7 @@ public class Controller1 {
         return null;
     }
 
-    @RequestMapping("/test4.yml")
+    @RequestMapping("/test4")
     @Yml
     public User test4() {
         logger.debug("test4");
@@ -59,5 +60,10 @@ public class Controller1 {
         public void setAge(Integer age) {
             this.age = age;
         }
+    }
+
+    public static void main(String[] args) {
+        String str = new Yaml().dump(new User("zhangsan", 20));
+        System.out.println(str);
     }
 }

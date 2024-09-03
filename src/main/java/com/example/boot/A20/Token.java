@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Token {
-    // 可以添加自定义属性，这里保持简单，没有添加任何属性
+
 }
