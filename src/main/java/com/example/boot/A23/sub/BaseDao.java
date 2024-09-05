@@ -1,4 +1,4 @@
-package com.example.boot.A23;
+package com.example.boot.A23.sub;
 
 class BaseDao<T> {
 

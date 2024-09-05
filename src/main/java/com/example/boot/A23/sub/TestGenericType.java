@@ -1,7 +1,8 @@
-package com.example.boot.A23;
+package com.example.boot.A23.sub;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+
 import org.springframework.core.GenericTypeResolver;
 
 public class TestGenericType {
