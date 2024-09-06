@@ -1,5 +1,6 @@
 package com.example.boot.A35;
 
+import org.springframework.boot.autoconfigure.web.servlet.WebConfig;
 import org.springframework.boot.web.servlet.context.AnnotationConfigServletWebServerApplicationContext;
 
 public class A35 {

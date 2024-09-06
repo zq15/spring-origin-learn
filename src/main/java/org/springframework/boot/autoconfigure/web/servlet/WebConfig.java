@@ -1,4 +1,4 @@
-package com.example.boot.A35;
+package org.springframework.boot.autoconfigure.web.servlet;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 import javax.annotation.PostConstruct;
-import org.springframework.boot.autoconfigure.web.servlet.DispatcherServletRegistrationBean;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
 import org.springframework.cache.concurrent.ConcurrentMapCache;
 import org.springframework.context.ApplicationContext;
@@ -17,20 +16,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.servlet.DispatcherServlet;
-import org.springframework.web.servlet.function.RouterFunction;
-import org.springframework.web.servlet.function.ServerResponse;
-import org.springframework.web.servlet.function.support.HandlerFunctionAdapter;
-import org.springframework.web.servlet.function.support.RouterFunctionMapping;
 import org.springframework.web.servlet.handler.SimpleUrlHandlerMapping;
 import org.springframework.web.servlet.mvc.HttpRequestHandlerAdapter;
+import org.springframework.web.servlet.mvc.SimpleControllerHandlerAdapter;
 import org.springframework.web.servlet.resource.CachingResourceResolver;
 import org.springframework.web.servlet.resource.EncodedResourceResolver;
 import org.springframework.web.servlet.resource.PathResourceResolver;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
-import static org.springframework.web.servlet.function.RequestPredicates.GET;
 import static org.springframework.web.servlet.function.RouterFunctions.route;
-import static org.springframework.web.servlet.function.ServerResponse.ok;
 
 @Configuration
 public class WebConfig {
@@ -63,6 +57,17 @@ public class WebConfig {
     @Bean
     public HttpRequestHandlerAdapter httpRequestHandlerAdapter() {
         return new HttpRequestHandlerAdapter();
+    }
+
+    @Bean
+    public WelcomePageHandlerMapping welcomePageHandlerMapping(ApplicationContext context) {
+        Resource resource = context.getResource("classpath:static/index.html");
+        return new WelcomePageHandlerMapping(null, context, resource, "/**");
+    }
+
+    @Bean
+    public SimpleControllerHandlerAdapter simpleControllerHandlerAdapter() {
+        return new SimpleControllerHandlerAdapter();
     }
 
     @Bean("/**") // 配置和 url 匹配关系
