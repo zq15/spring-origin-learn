@@ -8,10 +8,10 @@
 
     <!-- 设置 org.springframework.aop.aspectj.annotation 包的日志级别为 trace -->
     <logger name="org.springframework.aop.aspectj.annotation" level="trace"/>
-<!--    <logger name="org.springframework.web.servlet" level="trace"/>-->
+    <logger name="org.springframework.web.servlet" level="trace"/>
     <logger name="com.example.boot" level="trace" />
 
-    <root level="info">
+    <root level="trace">
         <appender-ref ref="STDOUT" />
     </root>
 </configuration>
